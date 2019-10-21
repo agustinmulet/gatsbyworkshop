@@ -1,0 +1,117 @@
+---
+title: Workshop - Paso 1
+path: /paso-01
+index: 3
+---
+
+import Image from '../components/Image'
+
+Al fin podemos arrancar a hacer nuestro portfolio! 🎉🎊🎉🎊 Empecemos con lo
+primero, la idea es traernos desde Github nuestros proyectos, así que para
+lograr eso necesitamos consumir la API de GraphQL de Github. Pensemos esto
+_Gatsby style_ como veníamos pensando con los plugins, necesitamos entonces:
+
+- Una **fuente de datos** (_source_) que van a ser **nuestros proyectos**, la
+  cual vamos a exponer por medio de un plugin de tipo _source_.
+- El mismo plugin se encarga de traernos en un JSON todo preparadito con el
+  texto incluyendo la data que nosotros elijamos 😜, así que no sería necesario
+  **transformar** (_transform_) esa data.
+- Una vez que esté todo hecho y configurado, vamos a poder **usar** esa data en
+  el frontend consultándola por medio de `GraphQL`.
+
+Vamos a buscar un plugin de tipo source para lo que necesitamos, entremos en la
+sección de [plugins de Gatsby](https://www.gatsbyjs.org/plugins/) y busquemos en
+la barra de la izquierda "_github_". Vamos a ver que nos sugiere algunas
+opciones pero a nosotros nos interesa
+[**gatsby-source-github-api**](https://www.gatsbyjs.org/packages/gatsby-source-github-api/),
+así que hagamos click en ese y empecemos a leer la docu (les recomiendo
+**SIEMPRE** leer la documentación, de todo lo que usen jaja 😉). Si leemos la
+descripción, vemos que es exactamente lo que necesitamos, así que vamos a
+instalarlo:
+
+Vayamos a la consola y en el root de nuestro proyecto (_si tenemos el servidor
+local de Gatsby, lo frenamos con `Ctrl + C`_) y tipeemos lo siguiente:
+
+```bash
+npm i gatsby-source-api
+```
+
+Mientras se instala, sigamos leyendo la docu.
+
+Veremos que lo primero que dice es que vamos a necesitar un `token` para poder
+consumir la API de GraphQL de Github, así que vamos a www.github.com y, si
+estamos "logueados", hacemos click en nuestro avatar en la esquina superior
+derecha y en el menú seleccionamos la opción **Settings**. Luego en las opciones
+vamos a la que debería ser la última, **Developer settings**, luego **Personal
+access tokens** donde vamos a ver algo así (si es que tenemos alguna generada)
+
+<Image imgName="tokens.png" alt="Personal access tokens" />
+
+Como tenemos que generar una nueva para nuestra interacción con el plugin,
+tenemos que hacer click en el botón **Generate new token**. Acá Github nos va a
+recibir con una linda tabla llena de checkboxes pero no se preocupen, es por su
+bien 😌. En el input vamos a poner algo descriptivo sobre para qué es este
+token, por ejemplo, _Portfolio personal_.
+
+Luego debemos elegir a qué cosas podemos acceder con este token, y ya que
+solamente nos interesa leer datos, seleccionemos algunos que sean **read**. En
+nuestro caso con seleccionar las opciones **public_repo** y **read:user** nos
+alcanza. Una vez que seleccionemos esto, vamos abajo de todo a **Generate
+token**.
+
+<Image imgName="token_gen.png" alt="Token generado" />
+
+_No se gasten en usar ese token que ya lo borré antes de escribir esto por las
+dudas, paranoico yo?_ 🤣
+
+Copien y guarden en algún archivo de texto ese token por las dudas, lo digo por
+experiencia propia jajaja.
+
+Ahora sigamos con la configuración del plugin, nos dice que una vez que tengamos
+el `token` y hayamos instalado el plugin, que vayamos a nuestro archivo
+`gatsby-config.js` para agregarlo y configurarlo con el siguiente código:
+
+```javascript
+// En gatsby-config.js
+plugins: [
+  {
+    resolve: `gatsby-source-github-api`,
+    options: {
+      // token: el que generamos recién, requerido por la API de GitHub
+      token: unaString,
+
+      // GraphQLquery: con esta query, traemos a nuestro backend lo que
+      // queremos tener disponible para mostrar en nuestro frontend
+      graphQLQuery: otraString,
+
+      // variables: por si necesitamos utilizar variables en nuestra query,
+      // no vamos a usarlo así que podemos borrarlo
+      variables: algunObject,
+    },
+  },
+]
+```
+
+Entonces hagamos eso, agreguemos a nuestro proyecto el plugin, nos quedaría así:
+
+```javascript
+// En gatsby-config.js
+plugins: [
+  /* [...] */
+  {
+    resolve: `gatsby-source-github-api`,
+    options: {
+      token: `079b55830a613c38aff7f4608ef2448d83db9758`,
+      graphQLQuery: otraString,
+    },
+  },
+  /* [...] */
+]
+```
+
+_Sí, el token lo escribí a mano porque como dije antes, lo borré y no lo guardé_
+🤦‍♂️
+
+Listo, todo muy lindo, pero ahora, la query?!?!? Cómo la hacemos?
+
+Vayamos a la siguiente sección para aprender algo copado, `GraphQL` 🤩
