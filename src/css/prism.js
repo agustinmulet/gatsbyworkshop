@@ -1,7 +1,11 @@
-import { createGlobalStyle } from 'styled-components'
-import { MEDIA } from '../components/Framework'
+import {
+  createGlobalStyle
+} from 'styled-components'
+import {
+  MEDIA
+} from '../components/Framework'
 
-export default createGlobalStyle`
+export default createGlobalStyle `
   code,
   pre {
     font-family: Menlo, Consolas, 'Liberation Mono', Courier, monospace;
