@@ -4,10 +4,6 @@ path: /paso-03
 index: 6
 ---
 
-Estudiando el terreno para agregar nuestro blog, preparando nuestro "backend".
-
----
-
 import Image from '../components/Image'
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@reach/tabs'
 
@@ -101,7 +97,7 @@ que tiene **all** es para traer _todos_ y el otro es para filtrar uno solo.
 Nosotros queremos listar todos! Así que listemos toda la data que podamos que
 nos parezca útil:
 
-## IMAGEN DE GRAPHIQL
+<Image imgName="mdgraphiql.png" alt="Markdown in GraphiQL" />
 
 Recuerdan que _edges_ representaba la colección y _node_ cada uno de los objetos
 de la colección, no? Es bueno refrescarlo por las dudas 😊 Además, el plugin nos
@@ -115,7 +111,73 @@ hicimos para mostrar nuestros repos. La estructura y la idea del archivo sería
 muy parecida, así que les dejo cómo lo hice yo en estas pestañas así pueden
 intentarlo ustedes 😁
 
-## tabs con mi archivo
+<Tabs>
+<TabList>
+    <Tab>Soluciones</Tab>
+    <Tab>blog.js</Tab>
+</TabList>
+
+<TabPanels>
+
+<TabPanel>Para ver la solución hacé click en la pestaña 👆</TabPanel>
+
+<TabPanel>
+
+```javascript
+import React from "react"
+import { Link, useStaticQuery, graphql } from "gatsby"
+
+import Layout from "../components/layout"
+import SEO from "../components/seo"
+
+const BlogPage = () => {
+  const posts = useStaticQuery(graphql`
+    query {
+      allMarkdownRemark {
+        totalCount
+        edges {
+          node {
+            id
+            frontmatter {
+              title
+              date(formatString: "DD MMMM, YYYY", locale: "es")
+            }
+            excerpt
+          }
+        }
+      }
+    }
+  `)
+  return (
+    <Layout>
+      <SEO title="Blog" />
+      <h1>Hola</h1>
+      <p>Este es mi blog :)</p>
+      <p>Tengo en total {posts.allMarkdownRemark.totalCount} post(s)</p>
+      {posts.allMarkdownRemark.edges.map(({ node }) => (
+        <article
+          style={{
+            border: "1px solid grey",
+            borderRadius: "5px",
+            margin: "24px",
+            padding: "12px",
+          }}
+        >
+          <h2>{node.frontmatter.title}</h2>
+          <i>{node.frontmatter.date}</i>
+          <p>{node.excerpt}</p>
+        </article>
+      ))}
+    </Layout>
+  )
+}
+
+export default BlogPage
+```
+
+</TabPanel>
+</TabPanels>
+</Tabs>
 
 Una vez que lo tengamos todo listo, guardamos el archivo, esperamos un poquito a
 que se haga el _rebuild_ en nuestro servidor local y vamos a nuestra página
@@ -264,7 +326,7 @@ adentro de cada allMarkdownRemark -> edges -> node que se llame `fields`!
 Prueben si trae los slugs que recién creamos y sigamos con la creación de las
 páginas con **createPages**! 😁😁
 
-## Creando páginas de forma programática
+### Creando páginas de forma programática
 
 Bueno, venimos bien, agregamos un valor a los nodos de Markdown (nuestros
 posts), lo cual nos habilita a poder **consultar ese nuevo valor y mandarlo al
@@ -324,7 +386,7 @@ exports.createPages = async ({ graphql, actions }) => {
 Y vamos a ver en la consola el resultado de nuestra query, son los _slugs_ que
 generamos antes! 😄
 
-## IMAGEN DE CMDQUERY
+<Image imgName="cmdquery.png" alt="Slug in Command Line" style={{ width: '25vw', margin: '0 auto' }}/>
 
 Ya tenemos el _template_ y los _slugs_, ahora unamos todo con una _action_ de
 **createPages** que nos permite configurar y pasar data por medio de un
