@@ -545,7 +545,7 @@ la solución acá abajo, no pispeen sin intentarlo eh!!! 😝
 <Tabs>
 <TabList>
     <Tab>Soluciones</Tab>
-    <Tab>gatsby-node.js</Tab>
+    <Tab>pages/blog.js</Tab>
 </TabList>
 
 <TabPanels>
@@ -564,7 +564,7 @@ import SEO from "../components/seo"
 const BlogPage = () => {
   const posts = useStaticQuery(graphql`
     query {
-      allMarkdownRemark {
+      allMarkdownRemark(sort: { fields: [frontmatter___date], order: DESC }) {
         totalCount
         edges {
           node {
