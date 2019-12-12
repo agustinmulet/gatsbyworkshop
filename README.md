@@ -19,8 +19,8 @@ quieras!
 
 ## Mejoras a hacer
 
-- [ ] Explicar diferencias entre static y normal query
-- [ ] Agregar diferentes formas de aplicar estilos
+- [X] Explicar diferencias entre static y normal query
+- [X] Agregar diferentes formas de aplicar estilos
 - [ ] Agregar paginado al blog
 
 ---

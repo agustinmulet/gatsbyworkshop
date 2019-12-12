@@ -124,11 +124,11 @@ intentarlo ustedes 😁
 <TabPanel>
 
 ```javascript
-import React from "react"
-import { Link, useStaticQuery, graphql } from "gatsby"
+import React from 'react'
+import { Link, useStaticQuery, graphql } from 'gatsby'
 
-import Layout from "../components/layout"
-import SEO from "../components/seo"
+import Layout from '../components/layout'
+import SEO from '../components/seo'
 
 const BlogPage = () => {
   const posts = useStaticQuery(graphql`
@@ -157,10 +157,10 @@ const BlogPage = () => {
       {posts.allMarkdownRemark.edges.map(({ node }) => (
         <article
           style={{
-            border: "1px solid grey",
-            borderRadius: "5px",
-            margin: "24px",
-            padding: "12px",
+            border: '1px solid grey',
+            borderRadius: '5px',
+            margin: '24px',
+            padding: '12px',
           }}
         >
           <h2>{node.frontmatter.title}</h2>
@@ -386,7 +386,11 @@ exports.createPages = async ({ graphql, actions }) => {
 Y vamos a ver en la consola el resultado de nuestra query, son los _slugs_ que
 generamos antes! 😄
 
-<Image imgName="cmdquery.png" alt="Slug in Command Line" style={{ width: '25vw', margin: '0 auto' }}/>
+<Image
+  imgName="cmdquery.png"
+  alt="Slug in Command Line"
+  style={{ width: '25vw', margin: '0 auto' }}
+/>
 
 Ya tenemos el _template_ y los _slugs_, ahora unamos todo con una _action_ de
 **createPages** que nos permite configurar y pasar data por medio de un
@@ -507,7 +511,7 @@ vamos a verlas en el listado, háganle click y verán que carga el template que
 hicimos, que mucho como plantilla no estaría funcionando 🤣 Arreglemos eso!
 
 Lo que podemos hacer ahora es consultar la data de cada post filtrando por su
-**slug**! Eso lo hacemos en nuestro template con una query de página:
+**slug**! Eso lo hacemos en nuestro template con una query **de página**:
 
 ```javascript
 import React from 'react'
@@ -538,9 +542,36 @@ export const query = graphql`
 `
 ```
 
-Ya casi no nos queda nada! Nos falta vincular cada post del listado con su página creada! 
-Vayamos a `blog.js` en **pages** y agreguemos lo que nos falta, se los dejo a ustedes y 
-la solución acá abajo, no pispeen sin intentarlo eh!!! 😝
+Eh? _Query de página_??? Sí, en Gatsby hay dos formas de consultar data:
+
+- **Normal (o Page) Queries** (Query de página)
+- **Static Queries** (Query estática)
+
+Una de las principales diferencias entre las dos es que la _Query de página_
+puede usarse solamente en los componentes de **página**, y era la única forma de
+consultar data en Gatsby v1. Luego desarrollaron la _Query estática_, que
+apareció en Gatsby v2 y fue fundamental para eliminar lo que se llama _prop
+drilling_, que es pasar data (o state) mediante props de padre a hijos en
+múltiples niveles, suponiendo que a veces esa data se pasaba unas 3 ó 4 (o más)
+veces, lo cual volvía el código inmantenible. Las _Static Queries_ pueden
+utilizarse tanto en componentes **comunes** como en componentes de **página**.
+
+Y la última gran diferencia es que la _Query de página_ **acepta variables**,
+las cuales se reciben mediante el _contexto de página_ o **pageContext**, el cual 
+creamos recién en gatsby-node.js en la función `createPage`. La estática, tal 
+como su nombre indica, **no** acepta variables porque **no** tiene acceso al 
+contexto de página.
+
+En la query de página de arriba vemos que se indica que esa query recibe una
+variable (indicada con el signo `$`) de nombre **slug** y de tipo **String**, el
+signo de exclamación indica que esa variable es `requerida`.
+
+Bueno, sigamos con el blog! 😛
+
+Ya casi no nos queda nada! Nos falta vincular cada post del listado con su
+página creada! Vayamos a `blog.js` en **pages** y agreguemos lo que nos falta,
+se los dejo a ustedes y la solución acá abajo, no pispeen sin intentarlo eh!!!
+😝
 
 <Tabs>
 <TabList>
@@ -555,11 +586,11 @@ la solución acá abajo, no pispeen sin intentarlo eh!!! 😝
 <TabPanel>
 
 ```javascript
-import React from "react"
-import { Link, useStaticQuery, graphql } from "gatsby"
+import React from 'react'
+import { Link, useStaticQuery, graphql } from 'gatsby'
 
-import Layout from "../components/layout"
-import SEO from "../components/seo"
+import Layout from '../components/layout'
+import SEO from '../components/seo'
 
 const BlogPage = () => {
   const posts = useStaticQuery(graphql`
@@ -591,14 +622,14 @@ const BlogPage = () => {
       {posts.allMarkdownRemark.edges.map(({ node }) => (
         <Link
           to={node.fields.slug}
-          style={{ textDecoration: "none", color: "#2f2f2f" }}
+          style={{ textDecoration: 'none', color: '#2f2f2f' }}
         >
           <article
             style={{
-              border: "1px solid grey",
-              borderRadius: "5px",
-              margin: "24px",
-              padding: "12px",
+              border: '1px solid grey',
+              borderRadius: '5px',
+              margin: '24px',
+              padding: '12px',
             }}
           >
             <h2>{node.frontmatter.title}</h2>
@@ -618,7 +649,7 @@ export default BlogPage
 </TabPanels>
 </Tabs>
 
-Terminado nuestro blog! Ya nos queda ponerlo lindo pero la funcionalidad está! 😀😀😀😀
-Espero que hayan disfrutado este workshop, cualquier duda o sugerencia escríbanme y con gusto 
-ayudo en lo que pueda, pueden encontrarme en Twitter como [@AgustinDMulet](https://twitter.com/AgustinDMulet), 
-nos vemos gente!!!
+Terminado nuestro blog! Ya nos queda ponerlo lindo pero la funcionalidad está!
+😀😀😀😀 Espero que hayan disfrutado este workshop, cualquier duda o sugerencia
+escríbanme y con gusto ayudo en lo que pueda, pueden encontrarme en Twitter como
+[@AgustinDMulet](https://twitter.com/AgustinDMulet), nos vemos gente!!!
