@@ -31,7 +31,6 @@ const Image = ({ imgName, alt }) => (
       if (!image) {
         return null
       }
-      console.log({image})
       return <GatsbyImage image={image.gatsbyImageData} alt={alt} placeholder="blurred" />;
     }}
   />
